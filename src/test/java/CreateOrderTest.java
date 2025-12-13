@@ -12,8 +12,6 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class CreateOrderTest {
 
-    String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTE2MzAxYjdlZTkyNzAwM2QyOGRjNjIiLCJpYXQiOjE3NjQ2OTU5MzMsImV4cCI6MTc2NTMwMDczM30.2djCUAGl6tprzZHjeaAQ4RlesownYFs7ojeGrVtJN6M";
-
     @BeforeEach
     public void setUp() {
         RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
@@ -41,7 +39,7 @@ public class CreateOrderTest {
         order.setComment(comment);
         order.setColor(colors);
 
-        Response response = given().header("Content-Type", "application/json").auth().oauth2(bearerToken)
+        Response response = given().header("Content-Type", "application/json")
                 .and().body(order).when().post("/api/v1/orders");
         response.then().assertThat().body("track", notNullValue()).and()
                 .statusCode(201);

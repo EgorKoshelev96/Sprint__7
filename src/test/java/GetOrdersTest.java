@@ -13,8 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GetOrdersTest {
 
-    String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTE2MzAxYjdlZTkyNzAwM2QyOGRjNjIiLCJpYXQiOjE3NjQ2OTU5MzMsImV4cCI6MTc2NTMwMDczM30.2djCUAGl6tprzZHjeaAQ4RlesownYFs7ojeGrVtJN6M";
-
     @BeforeEach
     void setUp() {
         RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
@@ -29,13 +27,12 @@ public class GetOrdersTest {
         statusCodeListOfOrders(response);
         checkingResponseBodyIsNotEmpty(response);
         checkResponseContainsOrdersList(response);
-
     }
 
     @Step("Send GET request /api/v1/orders")
     public Response gettingListOfOrders() {
         Response response =
-                given().header("Content-Type", "application/json").auth().oauth2(bearerToken)
+                given().header("Content-Type", "application/json")
                         .and().get("/api/v1/orders").then().extract().response();
         return response;
     }
@@ -50,7 +47,6 @@ public class GetOrdersTest {
     public void checkingResponseBodyIsNotEmpty(Response response) {
         String responseBody = response.body().asString();
         assertFalse(responseBody.isEmpty(), "Тело ответа пустое");
-
     }
 
     @Step("We check that the response contains a list of orders")
@@ -65,7 +61,5 @@ public class GetOrdersTest {
                 assertNotNull(firstId, "Поле id отсутствует в первом заказе");
             }
         }
-
-
     }
 }
